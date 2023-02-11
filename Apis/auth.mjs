@@ -68,7 +68,7 @@ const loginResult = await loginSchema.validateAsync(req.body)
 const verifyLogin = await userModel.findOne(
     { email: loginResult.email },
     "firstName lastName email password isAdmin")
-    console.log(loginResult.password,verifyLogin.password)
+   
 if(!verifyLogin) throw new Error("Invalid Email")
 
     const isMatchedLoginPassword = await varifyHash(loginResult.password, verifyLogin.password)
