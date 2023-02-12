@@ -117,7 +117,9 @@ const [loadProduct, setLoadProduct] = useState(false)
                <Box sx={{height:"100%", width:250,textAlign:'center',backgroundColor:"#7ceaa4", color:"white" }}
                >
                <List >
-                 <LinkPage
+               {(state.user.isAdmin===false)?
+                 <div>
+                  <LinkPage
                   onClick={()=>{setIsOpen(false)}}
                  to="/">
          <ListItem sx={{ color:"white" }}
@@ -141,9 +143,22 @@ const [loadProduct, setLoadProduct] = useState(false)
              <ListItemText primary="Cart" />
            </ListItemButton>
          </ListItem></LinkPage>
+                 </div>:null}
+
          {(state.user.isAdmin===true)?
          <div>
-         
+          <LinkPage
+                  onClick={()=>{setIsOpen(false)}}
+                 to="/">
+         <ListItem sx={{ color:"white" }}
+         disablePadding>
+           <ListItemButton component="a" >
+             <ListItemIcon>
+               <Home /> 
+             </ListItemIcon>
+             <ListItemText primary="Home" />
+           </ListItemButton>
+         </ListItem></LinkPage>
          <LinkPage
           onClick={()=>{setIsOpen(false)}}
           to="/AddNewItem">
@@ -209,7 +224,8 @@ const [loadProduct, setLoadProduct] = useState(false)
        </Box>
 
          <Box sx={{ fontWeight:'20px', display:{xs:'none',lg:'flex',sm:"flex"},alignItems:"flex-end" ,justifyContent:"flex-end"}}>
-
+{(state.user.isAdmin===false)?
+<div>
 <LinkPage
 className="hover-underline-animation"
  
@@ -218,8 +234,14 @@ className="hover-underline-animation"
 className="hover-underline-animation"
  
    to="/AddToProduct" ><TabPage label="Cart" /></LinkPage>
+</div>
+
+:null}
 {(state.user.isAdmin===true)?
 <div>
+<LinkPage
+  className="hover-underline-animation"
+   to="/" ><TabPage label="Home" /></LinkPage>
 <LinkPage
   className="hover-underline-animation"
    to="/AddNewItem" ><TabPage label="Add Item" /></LinkPage>

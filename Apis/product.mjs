@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import { productModel,Category } from '../dbRepo/model.mjs'
+import { productModel,Category,placeorder } from '../dbRepo/model.mjs'
 import multer from 'multer';
 import jwt from 'jsonwebtoken';
 import bucket from "../FirebaseAdmin/index.mjs";
@@ -499,4 +499,71 @@ router.get('/categoryFeed' , async(req,res)=>{
         console.error(error.message);
     }
 })
+router.post("/placeOrder",async (req, res) => {
+    try {
+    let body = req.body
+          
+         
+        
+    
+       const placeOrder= await placeorder.create({
+        FullName: body.FullName,
+        email: body.email,
+        price:  body.price,
+        status: body.status,
+        TotalAmount:body.TotalAmount,
+        totalItems:body.totalItems,
+        number:body.number,
+             
+        })
+        if(!placeOrder) {
+            res.status(500).send({message:"Server Error"})
+            return;
+        }
+    
+        res.status(201).send({ message: "Order Is Placed" });
+    
+    } catch (error) {
+        if (error.isJoi === true ||error.message) error.status = 422
+      
+        console.log("placeOrder Error: ", error,error.status);
+        console.log("placeOrder Error Message: ", error.message);
+        error.status
+        res.status(error.status).send({
+            message: error.message
+        })
+        
+    }
+    
+    
+    
+    
+        
+    
+    });
+    router.get('/placeOrderFeed' , async(req,res)=>{
+        const { page, limit = 8 } = req.query;
+        try {
+            const data = await placeorder.find()
+            .sort({"_id":-1})
+            .limit(limit * 1)
+          .skip((page - 1) * limit)
+          .exec();
+       if(!data) throw new Error("placeorder Not Found")
+          const count = await  placeorder.countDocuments();
+          console.log(count)
+          
+          res.json({
+            data,
+            totalPages: Math.ceil(count / limit),
+            currentPage: page
+          });
+        } catch (error) {
+            res.status(500).send({
+                message: error.message
+            })
+            console.error(error.message);
+        }
+    })   
+
 export default router

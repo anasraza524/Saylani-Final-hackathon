@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useState, useEffect,useContext } from "react"
 import {Snackbar,Alert} from '@mui/material';
 import {
-  Stack,Divider,Paper,Box,Button,Grid,CardMedia,Typography
+  Stack,Divider,Paper,Box,Button,Grid,CardMedia,Typography,TextField
 } from '@mui/material'
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
@@ -81,13 +81,51 @@ const AddToProduct = ({}) => {
  }, []);
 
 
-// useEffect(() => {
-//   if(state.bageNo === 0){
-//     handleClickOpen()
-//   }else{
-//     handleClose()
-//  }
-// }, [])
+const PlaceOrder = async (e) => {
+  
+  try {
+    e.preventDefault();
+    dispatch({
+      type: "LOAD_SKELETON",
+      payload: true
+    })
+  
+    setSuccess('')
+    setError('')
+    const data = new FormData(e.currentTarget)
+    let response = await axios.post(`${state.baseUrl}/placeorder`, {
+      FullName:data.get('FullName'),
+      email:data.get('email'),
+      price: data.get('email'),
+      status:data.get('email'),
+      TotalAmount:data.get('email'),
+      totalItems:data.get('email'),
+      number:data.get('email'),
+     
+    }, {
+        withCredentials: true
+    })
+    dispatch({
+      type:"USER_LOGIN",
+      payload: response.data.loginData
+
+
+    })
+
+    setSuccess(response.data.message)
+    console.log("login successful",response);
+   
+ 
+
+} catch (error) {
+  console.log("LoginError: ",error);
+  
+   setError(error.response.data.message)
+//  setError(error.message)
+  
+  
+}
+   }
 
   const deleteCartProduct = async (id) => {
     // if(error || success){
@@ -193,7 +231,7 @@ onClick={() => {
            alt="green iguana"
          />
          
-         <Box sx={{ my: 3, mx: 2 }}>
+         <Box sx={{ my: 1, mx: 2 }}>
            <Grid container alignItems="center">
              <Grid item xs>
                <Typography gutterBottom variant="h5" component="div">
@@ -202,8 +240,8 @@ onClick={() => {
                </Typography>
              </Grid>
              <Grid item>
-               <Typography gutterBottom variant="h7" component="div">
-                 ${eachProduct?.price}
+               <Typography gutterBottom variant="h6" component="div">
+               Pkr :{eachProduct?.price}
                  {/* sdfsdf */}
                </Typography>
              </Grid>
@@ -231,7 +269,7 @@ onClick={() => {
              getAProduct(eachProduct.id)
            }}
             color='success' variant='contained'>Add to cart</Button> */}
-           <Button fullWidth color='success' variant='contained'>Order Now</Button>
+           {/* <Button fullWidth color='success' variant='contained'>Order Now</Button> */}
          </Box>
        </Box>
 
@@ -247,6 +285,46 @@ onClick={() => {
 Total
 </Typography>
      
+     <Divider/><br />
+     <form onSubmit={PlaceOrder} style={{textAlign:"center",padding:"1em"}}>
+     <TextField
+
+          sx={{ pl: 3, pr: 5, width: { lg: "400px", sm: "400px", xs: "370px" } }}
+          size="medium"
+          type="text" placeholder="Enter your Full Name" required
+        id='FullName'
+        name='FullName'
+        ></TextField><br /><br />
+        <TextField
+
+sx={{ pl: 3, pr: 5, width: { lg: "400px", sm: "400px", xs: "370px" } }}
+size="medium"
+type="text" placeholder="Enter your Item Email" required
+id='Email'
+        name='Email'
+></TextField><br /><br />
+<TextField
+
+          sx={{ pl: 3, pr: 5, width: { lg: "400px", sm: "400px", xs: "370px" } }}
+          size="medium"
+          type="text" placeholder="Enter your Item Number" required
+          id='Number'
+          name='Number'
+        >
+          </TextField>
+          
+          <br /><br />
+        <TextField
+          sx={{ pl: 3, pr: 5, width: { lg: "400px", sm: "400px", xs: "370px" } }}
+         
+          placeholder="Enter your Shipping Address"
+          multiline
+          rows={4}
+          id='ShippingAddress'
+        name='ShippingAddress'
+        />
+
+        <Button style={{marginTop:"15px"}}  variant='contained' >Place Order</Button></form>
      </div>
   )
 }

@@ -59,7 +59,20 @@ const CategorySchema = new mongoose.Schema({
     CategoryImage: {type:String},
     createdOn: { type: Date, default: Date.now },
 });
-export const Category = mongoose.model('Category', CategorySchema);
+const placeOrderSchema = new mongoose.Schema({
+    FullName: { type: String },
+    email: { type: String },
+    price:  { type: Number },
+    status: { type: String },
+    TotalAmount:{ type: Number },
+    totalItems:{ type: String },
+    number:{ type: Number },
+    createdOn: { type: Date, default: Date.now },
+});
+
+
+
+export const placeorder= mongoose.model('placeOrder', placeOrderSchema);
 const mongodbURI = process.env.mongodbURI
 
 
