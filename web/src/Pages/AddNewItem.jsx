@@ -32,7 +32,7 @@ const AddNewItem = () => {
 
 
 
-  <Box
+{/* <label htmlFor="select-image"><Box
   
   sx={{display:"flex",justifyContent:"center",
     m:3, pl: 3, pr: 5,width:{lg:"400px",sm:"400px",xs:"310px"},backgroundColor:"gray" 
@@ -42,7 +42,51 @@ const AddNewItem = () => {
 
 <CameraAltIcon sx={{fontSize:"10em",m:4}} />
 
-  </Box>
+  </Box></label> */}
+
+  {  (preview)?
+           <Box
+  
+           sx={{display:"flex",justifyContent:"center",
+             m:3, pl: 3, pr: 5,width:{lg:"400px",sm:"400px",xs:"310px"},backgroundColor:"gray" 
+         ,borderRadius:"15px"
+         }}
+           > <div  className='zoom'>
+
+          
+                <img  style={{margin:"5px 0px 5px 22px "}} src={preview} height="200px" width="280px" alt="" srcset="" />
+                </div></Box>:<label htmlFor="select-image"><Box
+  
+  sx={{display:"flex",justifyContent:"center",
+    m:3, pl: 3, pr: 5,width:{lg:"400px",sm:"400px",xs:"310px"},backgroundColor:"gray" 
+,borderRadius:"15px"
+}}
+  >
+
+<CameraAltIcon sx={{fontSize:"10em",m:4}} />
+
+  </Box></label>
+              }
+
+  <TextField 
+                sx={{pl:5,pr:5}}
+                 size="small"
+                type="file"  
+                id="select-image"
+
+                name='select-image'
+                onChange={(e) => {
+                  setFile(e.currentTarget.files[0])
+                 
+                  var url = URL.createObjectURL(e.currentTarget.files[0])
+
+                  console.log("url: ", url);
+
+                  setPreview(url)
+                }}
+                 style={{ display: 'none' }}
+                />
+
         <TextField
        
           sx={{ pl: 3, pr: 5,width:{lg:"400px",sm:"400px",xs:"370px"} }}
@@ -81,6 +125,22 @@ const AddNewItem = () => {
           rows={4}
          
         />
+         <Box sx={{display:"flex",alignItems:"center"}}>
+      <Typography
+      sx={{ml:1,p:3}}
+      >
+        Unit Name 
+      </Typography>
+
+      <TextField
+         
+          id="filled-size-small"
+          defaultValue="Small"
+          variant="filled"
+          size="small"
+          type="text"
+        />
+       </Box>
        <Box sx={{display:"flex",alignItems:"center"}}>
       <Typography
       sx={{ml:1,p:3}}
@@ -111,7 +171,7 @@ const AddNewItem = () => {
       : 
       <Button disabled sx={{ml:10}} type="submit" variant="outlined">Add Product </Button>
       } */}
-      <Button sx={{ml:10}} type="submit" variant="contained">Add Product </Button>
+      <Button  sx={{ml:10}} type="submit" variant="contained">Add Product </Button>
         </form>
     </div>
   )

@@ -15,7 +15,7 @@ const Home = () => {
     <div style={{marginTop:"10px"}}>
 <Typography sx={{m:2,fontSize:{xs:30,sm:50,lg:50}}} >
 
-  Products
+ All Products
 </Typography>
 <Divider sx={{color:"white"}}/>
       <Grid 
