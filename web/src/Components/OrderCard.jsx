@@ -24,7 +24,7 @@ number}) => {
     bgcolor: 'white',p:1,borderRadius:"10px",color:"black",m:"1em"}}>
 
     
-      <Typography  gutterBottom variant="h3" component="div">
+      <Typography  gutterBottom variant="h5" component="div">
           {name}
               
             </Typography>
@@ -34,11 +34,11 @@ number}) => {
             </Typography>
             <Box sx={{display:'flex',justifyContent:"space-between"}}>
             <Typography sx={{ opacity: 0.5}} color="gray" variant="body2" gutterBottom  component="div">
-          {number}
+           Total Items x {totalItems}
               
             </Typography>
             <Typography sx={{ opacity: 0.5}} color="gray" variant="body2" gutterBottom  component="div">
-            {totalItems}
+            {number}
               
             </Typography>
             </Box>
