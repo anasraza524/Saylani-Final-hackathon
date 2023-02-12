@@ -3,6 +3,8 @@ dotenv.config()
 import moment from 'moment'
 import multer from 'multer'
 import express from 'express';
+import bucket from "../FirebaseAdmin/index.mjs";
+import fs from 'fs';
 import {signupSchema,loginSchema,resetPasswordSchema,forgetPasswordSchema}from '../helper/validation_schema.mjs'
 import { nanoid, customAlphabet } from 'nanoid'
 import { userModel, productModel, OtpRecordModel } from '../dbRepo/model.mjs'
@@ -17,7 +19,32 @@ import cookieParser from 'cookie-parser';
 
 const SECRET = process.env.SECRET;
 
-
+const storageConfig = multer.diskStorage({
+    destination: '/tmp/uploads/',
+ // destination: './uploads/',
+     filename: function (req, file, cb) {
+ 
+  console.log("mul-file: ", file);
+         cb(null, `${new Date().getTime()}-${file.originalname}`)
+     }
+ })
+ 
+ let uploadMiddleware = multer({
+      storage: storageConfig ,
+     
+      fileFilter: (req, file, cb) => {
+       
+         if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
+           cb(null, true);
+         } else {
+             // this is requesting in uploadMiddleware body and you can send error
+             req.fileValidationError = "Forbidden extension";
+                return cb(null, false, req.fileValidationError);
+         //   return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
+         }
+       }
+ 
+      })
 const router = express.Router()
 
 router.post("/signup",async (req, res) => {
@@ -426,53 +453,34 @@ if(!body.password) throw new Error("New Password Not Found")
     }
 
 })
-const storageConfig = multer.diskStorage({
-    destination: '/tmp/uploads/',
- // destination: './uploads/',
-     filename: function (req, file, cb) {
- 
-  console.log("mul-file: ", file);
-         cb(null, `${new Date().getTime()}-${file.originalname}`)
-     }
- })
- 
- let uploadMiddleware = multer({
-      storage: storageConfig ,
-     
-      fileFilter: (req, file, cb) => {
-       
-         if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
-           cb(null, true);
-         } else {
-             // this is requesting in uploadMiddleware body and you can send error
-             req.fileValidationError = "Forbidden extension";
-                return cb(null, false, req.fileValidationError);
-         //   return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
-         }
-       }
- 
-      })
-router.put('/updateProfile/:id', uploadMiddleware.any()
+
+router.put('/updateProfile', uploadMiddleware.any()
 ,  async (req, res) => {
+    
    
+
    try {
+    const token = jwt.decode(req.cookies.Token)
+    const body = req.body;
+    console.log(body,"4545")
+    console.log(token,"45")
+
     // this is The we are sending
-if(req.fileValidationError){
-    res.status(400).send({message:"Only .png, .jpg and .jpeg format allowed!"})
-    return
-}
-const body = req.body;
-const id = req.params.id;
+    if(req.fileValidationError){
+        res.status(400).send({message:"Only .png, .jpg and .jpeg format allowed!"})
+        return
+    }
+
 
 
    
 
     
-console.log("userId",userId)
 
 
 
-if(!req.files[0]) throw new Error("please upload product Image")
+
+// if(!req.files[0]) throw new Error("please upload product Image")
 // console.log(req.files[0].mimetype)
 
 if(req.files[0].mimetype === "image/png"||
@@ -523,8 +531,9 @@ fs.unlink(req.files[0].path, (err) => {
     console.log("Delete sus")
   }
 })
-productModel.findByIdAndUpdate(id,
-    {
+
+
+userModel.findByIdAndUpdate(token._id,{
         firstName: body.firstName,
         
         profileImage:urlData[0],

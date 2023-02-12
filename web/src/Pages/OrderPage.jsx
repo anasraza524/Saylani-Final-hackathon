@@ -16,7 +16,9 @@ import axios from 'axios';
 const OrderPage = () => {
   let { state, dispatch } = useContext(GlobalContext);
   let formData = new FormData();
+  let formData2 = new FormData();
   const [firstName, setFirstName] = useState('');
+  const [categoryName, setCategoryName] = useState('')
 
 
   const [preview, setPreview] = useState(null)
@@ -25,8 +27,10 @@ const OrderPage = () => {
   const [file2, setFile2] = useState(null)
       const [error, setError] = useState('');
       const [success, setSuccess] = useState('');
-      formData.append("profileImage", file);
+      formData.append("profileImage", file2);
       formData.append("firstName", firstName);
+      formData2.append("CategoryImage", file);
+      formData2.append("name", categoryName);
       const  editProduct = async(e)=> { 
 
         
@@ -35,7 +39,7 @@ const OrderPage = () => {
         setError('')
         axios({
           method: 'put',
-          url: `${state.baseUrl}/updateProfile/${state.user.data._id}`,
+          url: `${state.baseUrl}/updateProfile`,
           data: formData,
           headers: { 'Content-Type': 'multipart/form-data' },
           withCredentials:true
@@ -65,7 +69,49 @@ const OrderPage = () => {
         
           })
           };
- 
+
+          const submitHandler = async (e) => {
+            e.preventDefault();
+            dispatch({
+              type: "LOAD_SKELETON",
+              payload: true
+            })
+        
+            setSuccess('')
+            setError('')
+        
+            axios({
+              method: 'post',
+              url: `${state.baseUrl}/category`,
+              data: formData2,
+              headers: { 'Content-Type': 'multipart/form-data' },
+              withCredentials: true
+            })
+              .then(res => {
+                // setLoadProduct(!loadProduct)
+                console.log(`upload Success` + res.data);
+                setSuccess(res.message
+                )
+                dispatch({
+                  type: "LOAD_SKELETON",
+                  payload: false
+                })
+                e.target.reset()
+                setFile(null)
+        
+                setPreview(null)
+              })
+              .catch(err => {
+                dispatch({
+                  type: "LOAD_SKELETON",
+                  payload: false
+                })
+        
+                console.log("error: ", err);
+                setError(err.response.data.message)
+        
+              })
+          };
         
   return (
     <div
@@ -73,9 +119,8 @@ const OrderPage = () => {
       
       <Box sx={{display:'flex',flexDirection:"column",p:5,
       alignItems:{lg:"normal",sm:"normal",xs:"center"}}}>
-        <form onSubmit={()=>{
-          editProduct()
-        }}>
+        <form onSubmit={submitHandler
+        }>
 <Box sx={{display:'flex',flexDirection:"column",maxWidth:"40em",
 
 }}>
@@ -123,7 +168,9 @@ const OrderPage = () => {
                 }}
                  style={{ display: 'none' }}
                 />
-      <TextField id="standard-basic" label="Updated Full Name" variant="standard" />
+      <TextField 
+      onChange={(e) => { setFirstName(e.target.value) }}
+       id="standard-basic" label="Updated Full Name" variant="standard" />
 
       {  (preview)?
            <Box
@@ -149,7 +196,9 @@ const OrderPage = () => {
   </Box></label>
               }
 
-<TextField id="filled-basic" label="new Category Name" variant="filled" />
+<TextField
+onChange={(e)=>{setCategoryName(e.target.value)}}
+id="filled-basic" label="new Category Name" variant="filled" />
 <Button type='submit'>
 Done
 

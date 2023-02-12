@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import { productModel } from '../dbRepo/model.mjs'
+import { productModel,Category } from '../dbRepo/model.mjs'
 import multer from 'multer';
 import jwt from 'jsonwebtoken';
 import bucket from "../FirebaseAdmin/index.mjs";
@@ -357,5 +357,146 @@ router.put('/product/:id',async (req, res) => {
         })
     }
 })
+router.post('/category',
+//  multipartMiddleware
+ uploadMiddleware.any()
+,  async (req, res) => {
+   
+   try {
+    const body =req.body
+    // this is The we are sending
+if(req.fileValidationError){
+    res.status(400).send({message:"Only .png, .jpg and .jpeg format allowed!"})
+    return
+}
+    const token = jwt.decode(req.cookies.Token)
 
+
+   
+
+    
+
+// if(countProduct >= 1 ) throw new Error("Sorry, you can only add 1 product")
+// for multer
+// if(!req.files[0]) throw new Error("Error in creating product")
+
+// for multi Part (in multi part no file[0])
+if(!req.files[0]) throw new Error("please upload product Image")
+// console.log(req.files[0].mimetype)
+
+if(req.files[0].mimetype === "image/png"||
+req.files[0].mimetype === "image/jpeg"||
+req.files[0].mimetype === "image/jpg" ) console.log(" accept png, jpg, jpeg")
+else{
+    fs.unlink(req.files[0].path, (err) => {
+        if (err) {
+          console.error(err)
+          return
+        }
+        else{
+          console.log("Delete sus")
+        }
+      })
+    throw new Error("only accept png, jpg, jpeg")
+}
+
+if(req.files[0].size >= 1000000)throw new Error("only accept 1 Mb Image")
+// const UploadInStorageBucket = await bucket.upload(    req.files[0].path,
+//     {
+//         destination: `tweetPictures/${req.files[0].filename}`, // give destination name if you want to give a certain name to file in bucket, include date to make name unique otherwise it will replace previous file with the same name
+//     })
+//     if(!UploadInStorageBucket) throw new Error("Server Error")
+    
+// console.log('UploadInStorageBucket',UploadInStorageBucket)
+bucket.upload(
+    req.files[0].path,
+    {
+        destination: `SaylaniHacthon/${req.files[0].filename}`, // give destination name if you want to give a certain name to file in bucket, include date to make name unique otherwise it will replace previous file with the same name
+    },
+    function (err, file, apiResponse) {
+        if (!err) {
+
+            file.getSignedUrl({
+                action: 'read',
+                expires: '03-09-2999'
+            }).then((urlData, err) => {
+                if (!err) {
+
+
+fs.unlink(req.files[0].path, (err) => {
+  if (err) {
+    console.error(err,"dd")
+    return
+  }
+  else{
+    console.log("Delete sus")
+  }
+})
+                  
+               Category.create({
+                        name: body.name,
+                       
+
+                        CategoryImage: urlData[0],
+                        owner: new mongoose.Types.ObjectId(token._id)
+                    },
+                        (err, saved) => {
+                            if (!err) {
+                                console.log("saved: ", saved);
+
+                                res.send({
+                                    message: "Category added successfully"
+                                });
+                            } else {
+                                console.log("err: ", err);
+                                res.status(500).send({
+                                    message: "server error"
+                                })
+                            }
+                        })
+                }
+            })
+        } else {
+            console.log("err: ", err)
+            res.status(500).send({message:err});
+        }
+    });
+
+
+
+} catch (error) {
+
+    res.status(500).send({
+        message: error.message
+    })
+    console.error(error.message);
+
+   }
+})
+
+
+router.get('/categoryFeed' , async(req,res)=>{
+    const { page, limit = 8 } = req.query;
+    try {
+        const data = await Category.find()
+        .sort({"_id":-1})
+        .limit(limit * 1)
+      .skip((page - 1) * limit)
+      .exec();
+   if(!data) throw new Error("Category Not Found")
+      const count = await  Category.countDocuments();
+      console.log(count)
+      
+      res.json({
+        data,
+        totalPages: Math.ceil(count / limit),
+        currentPage: page
+      });
+    } catch (error) {
+        res.status(500).send({
+            message: error.message
+        })
+        console.error(error.message);
+    }
+})
 export default router

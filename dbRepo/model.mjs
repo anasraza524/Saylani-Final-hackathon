@@ -53,6 +53,12 @@ const userSchema = new mongoose.Schema({
 });
 export const userModel = mongoose.model('Users', userSchema);
 
+const CategorySchema = new mongoose.Schema({
+    name: { type: String },
+    CategoryImage: {type:String},
+    createdOn: { type: Date, default: Date.now },
+});
+export const Category = mongoose.model('Category', CategorySchema);
 const mongodbURI = process.env.mongodbURI
 
 

@@ -243,13 +243,16 @@ className="hover-underline-animation"
              onClick={(e) => setOpen(true)}
            /> */}
          </Icons>
-         {/* <UserBox onClick={(e) => setOpen(true)}>
+         <UserBox >
            <Avatar
              sx={{ width: 30, height: 30 }}
-             src="https://images.pexels.com/photos/846741/pexels-photo-846741.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+             src={state.user.profileImage
+}
            />
-           <Typography variant="span">John</Typography>
-         </UserBox> */}
+           <Typography variant="span">
+            {state.user.firstName
+}</Typography>
+         </UserBox> 
        </StyledToolbar>
          
      </AppBar>
