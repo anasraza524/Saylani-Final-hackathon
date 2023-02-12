@@ -1,34 +1,87 @@
-import React,{useState} from 'react'
+import React,{useState,useContext} from 'react'
 import {
   Typography, Card, CardContent,CircularProgress,
   TextField, Button, Paper, Chip, Box, Grid,
-  CardActions, CardActionArea, Divider, CardMedia,Stack,MenuItem
+  CardActions, CardActionArea, Divider, CardMedia,Stack,
 } from '@mui/material'
 import InputLabel from '@mui/material/InputLabel';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
-
-import FormControl from '@mui/material/FormControl';
+import { GlobalContext } from '../Context/Context';
+import {FormControl,MenuItem} from '@mui/material';
 import Select from '@mui/material/Select';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
+import axios from 'axios';
 // import { AddPhotoAlternateIcon,ErrorIcon} from '@mui/icons-material'
 
 const AddNewItem = () => {
   const [age, setAge] = React.useState('');
-
+  const [prodName, setProdName] = useState('')
+  const [prodPrice, setProdPrice] = useState('');
+  const [prodDec, setProdDec] = useState('')
+  const [prodPriceUnit, setProdPriceUnit] = useState('')
+const [preview, setPreview] = useState(null)
+const [file, setFile] = useState(null)
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+    let { state, dispatch } = useContext(GlobalContext);
   const handleChange = (event) => {
     setAge(event.target.value);
   };
-
+  let formData = new FormData();
+  console.log(age,file,prodPriceUnit,prodDec,prodPrice,prodName)
+  formData.append("productImage", file);
+  formData.append("name", prodName);
+  formData.append("price", prodPrice);
+  formData.append("description", prodDec);
+  formData.append("productType",age)  
+  formData.append("priceUnit", prodPriceUnit)
  
-  const [preview, setPreview] = useState(null)
-  const [file, setFile] = useState(null)
-      const [error, setError] = useState('');
-      const [success, setSuccess] = useState('');
+    const submitHandler = async (e) => {
+      e.preventDefault();
+      dispatch({
+        type:"LOAD_SKELETON",
+        payload:true
+      })
+     
+      setSuccess('')
+  setError('')
+  
+  axios({
+    method: 'post',
+    url: `${state.baseUrl}/product`,
+    data: formData,
+    headers: { 'Content-Type': 'multipart/form-data' },
+    withCredentials:true
+  })
+    .then(res => {
+        // setLoadProduct(!loadProduct)
+        console.log(`upload Success` + res.data);
+        setSuccess(res.message
+          )
+        dispatch({
+          type:"LOAD_SKELETON",
+          payload:false
+        })
+        e.target.reset()
+        setFile(null)
+       
+        setPreview(null)
+    })
+    .catch(err => {
+      dispatch({
+        type:"LOAD_SKELETON",
+        payload:false
+      })
+      
+        console.log("error: ", err);
+        setError(err.response.data.message)
+  
+    })
+    };
+
   return (
     <div>
 
-<form style={{margin:'5px'}} >
+<form style={{margin:'5px',marginBottom:"3em"}} onSubmit={submitHandler} >
 
 
 
@@ -92,7 +145,7 @@ const AddNewItem = () => {
           sx={{ pl: 3, pr: 5,width:{lg:"400px",sm:"400px",xs:"370px"} }}
           size="medium"
           type="text" placeholder="Enter your Item name" required
-         
+          onChange={(e) => { setProdName(e.target.value) }}
           >
         </TextField>
         <br /><br />
@@ -108,10 +161,10 @@ const AddNewItem = () => {
          
           onChange={handleChange}
         >
-          <MenuItem value={10}>Grocery</MenuItem>
-          <MenuItem value={20}>Vegetable</MenuItem>
-          <MenuItem value={30}>Fruit</MenuItem>
-          <MenuItem value={40}>Masala</MenuItem>
+          <MenuItem value={"Grocery"}>Grocery</MenuItem>
+          <MenuItem value={"Vegetable"}>Vegetable</MenuItem>
+          <MenuItem value={"Fruit"}>Fruit</MenuItem>
+          <MenuItem value={"Masala"}>Masala</MenuItem>
         </Select>
       </FormControl>
     </Box>
@@ -123,7 +176,7 @@ const AddNewItem = () => {
         
           multiline
           rows={4}
-         
+          onChange={(e) => { setProdDec(e.target.value) }}
         />
          <Box sx={{display:"flex",alignItems:"center"}}>
       <Typography
@@ -139,6 +192,7 @@ const AddNewItem = () => {
           variant="filled"
           size="small"
           type="text"
+          onChange={(e) => { setProdPriceUnit(e.target.value) }}
         />
        </Box>
        <Box sx={{display:"flex",alignItems:"center"}}>
@@ -155,13 +209,14 @@ const AddNewItem = () => {
           variant="filled"
           size="small"
           type="number"
+          onChange={(e) => { setProdPrice(e.target.value) }}
         />
        </Box>
 
       
-        <br /><br />
         
-
+        
+        <Button  sx={{ml:10}} type="submit" variant="contained">Add Product </Button>
 
 {(!error)?"":<p style={{paddingLeft:"35px" ,color:"red", display:"flex"}}>
   {/* <ErrorIcon/> */}
@@ -171,7 +226,7 @@ const AddNewItem = () => {
       : 
       <Button disabled sx={{ml:10}} type="submit" variant="outlined">Add Product </Button>
       } */}
-      <Button  sx={{ml:10}} type="submit" variant="contained">Add Product </Button>
+     
         </form>
     </div>
   )

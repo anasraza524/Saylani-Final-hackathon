@@ -31,6 +31,7 @@ export const resetPasswordSchema = Joi.object({
 export const productSchema = Joi.object({
    
     name: Joi.string().required(),
+    priceUnit:Joi.string().required(),
     price:Joi.number().required() ,
     description:Joi.string().required() ,
     productType:Joi.string().required(),

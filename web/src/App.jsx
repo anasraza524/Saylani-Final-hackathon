@@ -175,7 +175,7 @@ console.log(state.isLogin)
 
      <Route path="*" element={<Navigate to="/" replace={true} />} />
      </Routes> 
-     <StickyFooter/>
+     {/* <StickyFooter/> */}
      </div>:null}
 
 

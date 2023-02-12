@@ -64,7 +64,7 @@ const countProduct = await productModel.countDocuments({owner: userId})
 
 console.log("countPro",countProduct)
 
-if(countProduct >= 1 ) throw new Error("Sorry, you can only add 1 product")
+// if(countProduct >= 1 ) throw new Error("Sorry, you can only add 1 product")
 // for multer
 // if(!req.files[0]) throw new Error("Error in creating product")
 
@@ -99,7 +99,7 @@ if(req.files[0].size >= 1000000)throw new Error("only accept 1 Mb Image")
 bucket.upload(
     req.files[0].path,
     {
-        destination: `tweetPictures/${req.files[0].filename}`, // give destination name if you want to give a certain name to file in bucket, include date to make name unique otherwise it will replace previous file with the same name
+        destination: `SaylaniHacthon/${req.files[0].filename}`, // give destination name if you want to give a certain name to file in bucket, include date to make name unique otherwise it will replace previous file with the same name
     },
     function (err, file, apiResponse) {
         if (!err) {
@@ -123,9 +123,11 @@ fs.unlink(req.files[0].path, (err) => {
                   
                     productModel.create({
                         name: productResult.name,
+                        priceUnit: productResult.priceUnit,
                         price: productResult.price,
                         description: productResult.description,
                         productType:productResult.productType,
+
                         productImage: urlData[0],
                         owner: new mongoose.Types.ObjectId(token._id)
                     },
