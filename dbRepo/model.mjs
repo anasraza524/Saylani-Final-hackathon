@@ -31,6 +31,7 @@ export const productModel = mongoose.model('products', productSchema);
 let addtocartSchema = new mongoose.Schema({
     id:String,
     name: { type: String, required: true },
+    priceUnit:{ type: String },
     price: Number,
     description: String,
     productImage: String,

@@ -32,12 +32,14 @@ try{
     addtocartModel.create({
         id:body.id,
         name: body.name,
+        priceUnit:body.priceUnit,
         price: body.price,
         owner: new mongoose.Types.ObjectId(body.token._id),
         description: body.description,
-        productType:body.description,
+        productType:body.productType,
         productImage: body.productImage,
     },
+    
         (err, saved) => {
             console.log("post Error",err)
             if (!err) {

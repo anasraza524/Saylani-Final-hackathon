@@ -180,7 +180,7 @@ const OrderPage = () => {
         <img src={preview2} height="200px" width="200" alt="" srcset="" />
       </Avatar>:
      <label htmlFor="select-Profile"><Avatar  sx={{ width:{lg:200,sm:200,xs:150},ml:{lg:0,sm:0,xs:"5em"}, height:{lg:200,sm:200,xs:150}}}>
-        profile
+        <CameraAltIcon sx={{fontSize:"2em"}} />
       </Avatar></label>}
       <TextField 
                 sx={{pl:5,pr:5}}
