@@ -190,7 +190,7 @@ const [loadProduct, setLoadProduct] = useState(false)
              <ListItemIcon>
               <Article /> 
              </ListItemIcon>
-             <ListItemText primary="Order Page" />
+             <ListItemText primary="Setting" />
            </ListItemButton>
          </ListItem></LinkPage>
          <LinkPage
@@ -201,7 +201,7 @@ const [loadProduct, setLoadProduct] = useState(false)
              <ListItemIcon>
               <Article /> 
              </ListItemIcon>
-             <ListItemText primary="Setting" />
+             <ListItemText primary="Order Page" />
            </ListItemButton>
          </ListItem></LinkPage>
      
@@ -264,12 +264,11 @@ className="hover-underline-animation"
   
   <LinkPage
    className="hover-underline-animation"
-    to="/OrderPage" ><TabPage label="Order Page" /></LinkPage>
+    to="/OrderPage" ><TabPage label="Setting" /></LinkPage>
    <LinkPage
    className="hover-underline-animation"
-    to="/Setting" ><TabPage label="Setting" /></LinkPage>
+    to="/Setting" ><TabPage label="Order Page" /></LinkPage>
  
-
 </div>
 
   

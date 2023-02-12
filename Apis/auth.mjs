@@ -471,18 +471,6 @@ router.put('/updateProfile', uploadMiddleware.any()
         return
     }
 
-
-
-   
-
-    
-
-
-
-
-// if(!req.files[0]) throw new Error("please upload product Image")
-// console.log(req.files[0].mimetype)
-
 if(req.files[0].mimetype === "image/png"||
 req.files[0].mimetype === "image/jpeg"||
 req.files[0].mimetype === "image/jpg" ) console.log(" accept png, jpg, jpeg")

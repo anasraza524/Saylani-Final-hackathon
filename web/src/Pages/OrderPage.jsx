@@ -40,7 +40,7 @@ const OrderPage = () => {
       const  editProduct = async(e)=> { 
 
         
-        e.preventDefault();
+       
         setSuccess('')
         setError('')
         axios({
@@ -59,7 +59,7 @@ const OrderPage = () => {
                 type:"LOAD_SKELETON",
                 payload:false
               })
-              e.target.reset()
+             
               setFile(null)
              
               setPreview(null)
@@ -79,12 +79,12 @@ const OrderPage = () => {
           const submitHandler = async (e) => {
             
             e.preventDefault();
-            editProduct()
+            
             dispatch({
               type: "LOAD_SKELETON",
               payload: true
             })
-        
+            editProduct()
             setSuccess('')
             setError('')
         
