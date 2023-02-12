@@ -87,9 +87,10 @@ setError('')
         name:response.data.data.name,
         price:response.data.data.price,
         priceUnit:response.data.data.priceUnit,
+        productType:response.data.data.productType,
         description:response.data.data.description,
         productImage:response.data.data.productImage,
-        productType:response.data.data.productType
+       
       }
    
 
@@ -184,7 +185,7 @@ sx={{ width: '100%', maxWidth:{ lg:300,xs:300,sm:300},
          {eachProduct.productType}
         </Typography>
         <Typography sx={{ opacity: 0.5}} color="gray" variant="body2">
-         {eachProduct.des}
+         {eachProduct.description}
         </Typography>
         
       </Box>

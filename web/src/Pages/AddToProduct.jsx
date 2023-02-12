@@ -57,7 +57,7 @@ const AddToProduct = ({}) => {
     });
     console.log(response,"cart")
       
-    setaddtoCartData(response.data)
+    setaddtoCartData(response.data.data)
    
     
       // setLoadProduct(!loadProduct)
@@ -161,15 +161,7 @@ setError('')
         </DialogActions>
       </BootstrapDialog>   
       
-      {(state.bageNo === 0 )?
-      <CardMedia
-              component="img"
-              width="100px"
-              loading="lazy"
-                sx={{height:{xs:"450px",sm:"500px",lg:"550px"},mt:{xs:"80px"},backgroundSize:'cover'}}
-              // image={Cart2}
-              alt="No product Image"
-            />:  
+       
       <Grid sx={{m:{xs:1,sm:2,lg:3},mb:{xs:6,sm:5,lg:7}}} container item spacing={6}>
     {(!addtoCartData) ? null :
   addtoCartData?.map((eachProduct, index) => ( 
@@ -197,27 +189,33 @@ onClick={() => {
            width="200"
            height="200"
            // image='https://www.shutterstock.com/image-vector/sunscreen-product-banner-ads-on-260nw-1509241181.jpg'
-            // image={eachProduct?.productImage}
+            image={eachProduct?.productImage}
            alt="green iguana"
          />
+         
          <Box sx={{ my: 3, mx: 2 }}>
            <Grid container alignItems="center">
              <Grid item xs>
-               <Typography gutterBottom variant="h4" component="div">
-                 {/* {eachProduct.name} */}
+               <Typography gutterBottom variant="h5" component="div">
+                 {eachProduct?.name}
                  {/* sdsd */}
                </Typography>
              </Grid>
              <Grid item>
-               <Typography gutterBottom variant="h6" component="div">
-                 {/* ${eachProduct?.price} */}
+               <Typography gutterBottom variant="h7" component="div">
+                 ${eachProduct?.price}
                  {/* sdfsdf */}
                </Typography>
              </Grid>
            </Grid>
            <Typography sx={{ opacity: 0.5}} color="whitesmoke" variant="body2">
              {/* dsdsdsd */}
-             {/* {eachProduct?.description} */}
+             {eachProduct?.description}
+           </Typography>
+           <Typography sx={{ opacity: 0.5}} color="whitesmoke" variant="body2">
+             {/* dsdsdsd */}
+             {eachProduct?.productType
+}
            </Typography>
            
          </Box>
@@ -242,7 +240,14 @@ onClick={() => {
            ))
          } 
     
-     </Grid>}</div>
+     </Grid>
+     <Divider variant="middle" />
+     <Typography sx={{m:2,fontSize:{xs:30,sm:50,lg:50}}} >
+
+Total
+</Typography>
+     
+     </div>
   )
 }
 

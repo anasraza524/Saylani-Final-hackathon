@@ -7,10 +7,11 @@ import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 import auth from './Apis/auth.mjs'
+import addtoCart from '././Apis/addtoCart.mjs'
 import product from './Apis/product.mjs'
 import loginBarrier from './helper/loginBarrier.mjs'
 import loginEquip from './helper/loginEquip.mjs'
-import { userModel,OtpRecordModel } from './dbRepo/model.mjs';
+import { userModel,OtpRecordModel, } from './dbRepo/model.mjs';
 
 
 
@@ -70,6 +71,7 @@ const getUser = async (req, res) => {
 app.get('/api/v1/profile', getUser)
 app.get('/api/v1/profile/:id', getUser)
 app.use('/api/v1', product)
+app.use('/api/v1', addtoCart)
 
 
 
