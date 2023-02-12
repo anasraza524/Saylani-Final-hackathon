@@ -35,6 +35,7 @@ try{
         price: body.price,
         owner: new mongoose.Types.ObjectId(body.token._id),
         description: body.description,
+        productType:body.description,
         productImage: body.productImage,
     },
         (err, saved) => {

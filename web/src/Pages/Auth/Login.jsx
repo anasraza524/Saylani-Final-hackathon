@@ -186,7 +186,7 @@ theme="light"
         <Typography  variant="h6"
           sx={{ 
           display: { xs: "" },color:"white",fontSize:"60px",fontFamily:"sans-serif" }}>
-           E-MART
+           Online Discount Store
          </Typography></span>
           <Typography component="h1" variant="h5">
             Login

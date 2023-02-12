@@ -130,19 +130,46 @@ const [loadProduct, setLoadProduct] = useState(false)
            </ListItemButton>
          </ListItem></LinkPage>
          {(state.user.isAdmin===true)?
+         <div>
+         
          <LinkPage
           onClick={()=>{setIsOpen(false)}}
-           to="/About">
+          to="/AddNewItem">
          <ListItem disablePadding>
            <ListItemButton component="a" >
              <ListItemIcon>
               <Article /> 
              </ListItemIcon>
-             <ListItemText primary="Add Product" />
+             <ListItemText primary="Add item" />
            </ListItemButton>
-         </ListItem></LinkPage> :null
+         </ListItem></LinkPage>
+         <LinkPage
+          onClick={()=>{setIsOpen(false)}}
+          to="/OrderPage">
+         <ListItem disablePadding>
+           <ListItemButton component="a" >
+             <ListItemIcon>
+              <Article /> 
+             </ListItemIcon>
+             <ListItemText primary="Order Page" />
+           </ListItemButton>
+         </ListItem></LinkPage>
+         <LinkPage
+          onClick={()=>{setIsOpen(false)}}
+          to="/Setting">
+         <ListItem disablePadding>
+           <ListItemButton component="a" >
+             <ListItemIcon>
+              <Article /> 
+             </ListItemIcon>
+             <ListItemText primary="Setting" />
+           </ListItemButton>
+         </ListItem></LinkPage>
+     
+         </div>
+         :null
  }
-         
+          
          <Divider/>
          <ListItem onClick={()=>{
             LogoutHandle()
@@ -165,7 +192,7 @@ const [loadProduct, setLoadProduct] = useState(false)
          <Typography  variant="h6"
           sx={{ 
           display: { xs: "" } }}>
-           E-MART
+           Online Discount Store
          </Typography>
        </Box>
 
@@ -177,9 +204,24 @@ className="hover-underline-animation"
    to="/" ><TabPage label="Home" /></LinkPage>
 
 {(state.user.isAdmin===true)?
+<div>
 <LinkPage
   className="hover-underline-animation"
-   to="/About" ><TabPage label="Add Product" /></LinkPage>:
+   to="/AddNewItem" ><TabPage label="Add Item" /></LinkPage>
+  
+  <LinkPage
+   className="hover-underline-animation"
+    to="/OrderPage" ><TabPage label="Order Page" /></LinkPage>
+   <LinkPage
+   className="hover-underline-animation"
+    to="/Setting" ><TabPage label="Setting" /></LinkPage>
+ 
+
+</div>
+
+  
+
+   :
    null
  }
 

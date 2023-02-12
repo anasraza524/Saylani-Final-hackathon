@@ -33,6 +33,7 @@ export const productSchema = Joi.object({
     name: Joi.string().required(),
     price:Joi.number().required() ,
     description:Joi.string().required() ,
+    productType:Joi.string().required(),
     //  productImage:Joi.required() ,
     
 })

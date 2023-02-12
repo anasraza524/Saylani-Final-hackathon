@@ -125,6 +125,7 @@ fs.unlink(req.files[0].path, (err) => {
                         name: productResult.name,
                         price: productResult.price,
                         description: productResult.description,
+                        productType:productResult.productType,
                         productImage: urlData[0],
                         owner: new mongoose.Types.ObjectId(token._id)
                     },
@@ -233,6 +234,31 @@ router.get("/products/:name",async (req, res) => {
 
   });
 
+
+  router.get("/products/:productType",async (req, res) => {
+
+    try {
+        const body = req.body
+        const productType = req.params.productType
+        const verifyProductName = await  productModel.find({ 
+   
+            productType: { $regex: `${productType}` }
+         })
+         if(!verifyProductName)throw new Error("product not Found")
+
+         res.send({
+            message: `get product by success`,
+            data: verifyProductName,
+          });
+
+    } catch (error) {
+        res.status(500).send({
+            message: error.message
+        })
+        console.error(error.message);
+    }
+
+  });
 router.get('/products',async (req, res) => {
 try {
     const userId = new mongoose.Types.ObjectId(req.body.token._id);

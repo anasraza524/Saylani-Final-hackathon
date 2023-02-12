@@ -2,7 +2,7 @@ import { Routes, Route ,Navigate,  useHistory,
   useParams} from "react-router-dom";
 import './App.css';
 import { useState, useEffect,useContext } from "react"
-import About from "./Pages/About";
+
 import Loading from './assets/Loading.gif'
 import Nav from './Components/Nav';
 import OtpRecord from "./Pages/Auth/OtpRecord";
@@ -11,11 +11,13 @@ import axios from 'axios';
 import Login from "./Pages/Auth/Login";
 import SignUp from "./Pages/Auth/SignUp";
 import StickyFooter from "./Components/Footer";
-import Curd from "./Components/Curd";
+import ProductCard from "./Components/ProductCard";
 import ForgetPassword from "./Pages/Auth/ForgetPassword";
 import ResetPassword from "./Pages/Auth/ResetPassword";
 import { GlobalContext } from './Context/Context';
-
+import AddNewItem from "./Pages/AddNewItem";
+import Setting from "./Pages/Setting";
+import OrderPage from "./Pages/OrderPage";
 import { style } from "@mui/system";
 
 
@@ -123,7 +125,7 @@ console.log(state.isLogin)
 
   return (
     <div >
- 
+
 {/* <Custome/> */}
      {/* Auth State */}
 
@@ -167,7 +169,9 @@ console.log(state.isLogin)
  <Routes>
 
      <Route path="/" element={<Home />}/>
-     <Route path="About" element={<About />}/>
+     <Route path="AddNewItem" element={<AddNewItem />}/>
+     <Route path="OrderPage" element={<OrderPage />}/>
+     <Route path="Setting" element={<Setting />}/>
 
      <Route path="*" element={<Navigate to="/" replace={true} />} />
      </Routes> 

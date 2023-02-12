@@ -172,7 +172,7 @@ theme="light"
       >
          <DialogTitle dividers="true" >
         <Typography sx={{fontSize:{xs:"26px"},display:'flex',flexDirection:"column",alignItems:"center"}} variant='h4'>
-          E-Mart
+          Online Discount Store
        
         </Typography>
      
@@ -263,7 +263,7 @@ theme="light"
         <Typography  variant="h6"
           sx={{ 
           display: { xs: "" },color:"white",fontSize:"60px",fontFamily:"sans-serif" }}>
-           E-MART
+           Online Discount Store
          </Typography></span>
           <Typography component="h1" variant="h5">
             Sign up

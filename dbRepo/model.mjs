@@ -19,6 +19,7 @@ let productSchema = new mongoose.Schema({
     price: Number,
     description: String,
      productImage: String,
+     productType:String,
      owner: { type: mongoose.ObjectId, required: true },
 //   isDeleted: { type: Boolean, default: false },
     createdOn: { type: Date, default: Date.now }
@@ -32,6 +33,7 @@ let addtocartSchema = new mongoose.Schema({
     price: Number,
     description: String,
     productImage: String,
+    productType:String,
     owner: { type: mongoose.ObjectId, required: true },
     createdOn: { type: Date, default: Date.now }
 });

@@ -1,15 +1,38 @@
 import React,{useState,useEffect,useContext} from 'react'
-
+import {
+  Typography, Card, CardContent,CircularProgress,
+  TextField, Button, Paper, Chip, Box, Grid,
+  CardActions, CardActionArea, Divider, CardMedia,Stack
+} from '@mui/material'
 import { GlobalContext } from '../Context/Context';
 import { SlideLeft } from '../utils/motion';
 import { motion } from "framer-motion";
-
+import ProductCard from '../Components/ProductCard';
 const Home = () => {
   let { state, dispatch } = useContext(GlobalContext);
 
   return (
-    <div>
-asd
+    <div style={{marginTop:"10px"}}>
+<Typography sx={{m:2,fontSize:{xs:30,sm:50,lg:50}}} >
+
+  Products
+</Typography>
+<Divider sx={{color:"white"}}/>
+      <Grid 
+      sx={{display:{lg:"flex",sx:"flex",xs:"block"},flexWrap:"wrap",m:{xs:1,sm:3,lg:3},
+      mb:{xs:6,sm:5,lg:3},ml:{xs:3,sm:0,lg:0}}}
+    
+   >
+
+      
+<ProductCard
+image="data:image/jpeg;base64,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"
+price={50}
+des="sdsd"
+name="dsdsd"
+/>
+
+</Grid>
     </div>
   )
 }
