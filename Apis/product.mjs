@@ -567,5 +567,43 @@ router.post("/placeOrder",async (req, res) => {
             console.error(error.message);
         }
     })
+    router.put('/placeOrder/:id',async (req, res) => {
 
+        const body = req.body;
+        const id = req.params.id;
+    
+        if (
+            !body
+          
+        ) {
+            res.status(400).send(` required parameter missing. example request body:
+            {
+                "name": "value",
+                "price": "value",
+                "description": "value",
+                "productImage": "value"
+            }`)
+            return;
+        }
+    
+        try {
+            let data = await placeorder.findByIdAndUpdate(id,
+                {
+                    status: body.status,
+                },
+                { new: true }
+            ).exec();
+    
+            console.log('updated: ', data);
+    
+            res.send({
+                message: "product modified successfully"
+            });
+    
+        } catch (error) {
+            res.status(500).send({
+                message: "server error"
+            })
+        }
+    })
 export default router

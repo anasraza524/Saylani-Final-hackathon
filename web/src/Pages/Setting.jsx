@@ -89,7 +89,7 @@ TotalAmount={eachProduct.TotalAmount
 totalItems={eachProduct.totalItems
 }
 number={eachProduct.number}
-
+id={eachProduct._id}
 
 />
 ))}

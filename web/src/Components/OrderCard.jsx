@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useContext } from 'react'
 import {
     Typography, Card, CardContent,CircularProgress,
     TextField, Button, Paper, Chip, Box, Grid,
@@ -6,18 +6,49 @@ import {
   } from '@mui/material'
   import {FormControl,MenuItem} from '@mui/material';
 import Select from '@mui/material/Select';
+import axios from 'axios';
 import InputLabel from '@mui/material/InputLabel';
+import { GlobalContext } from '../Context/Context';
 const OrderCard = ({name,
 price,
 status,
 TotalAmount,
-totalItems,
+totalItems,id,
 number}) => {
     const [age, setAge] = React.useState('');
+console.log(age,id)
 
-    const handleChange = (event) => {
-      setAge(event.target.value);
-    };
+    let { state, dispatch } = useContext(GlobalContext);
+    const [loadProduct, setLoadProduct] = useState(false)
+ 
+ 
+    const  editProduct = async(e)=> { 
+    
+        
+       
+    
+          try {
+            const response = await axios.put(`${state.baseUrl}/placeOrder/${id}`,{
+              status:age,
+             
+            },{withCredentials:true})
+           
+
+      
+       
+           
+        
+            setLoadProduct(!loadProduct)
+      
+          } catch (error) {
+       
+            console.log("error in Updating all products", error);
+          }
+        }
+        const handleChange = (event) => {
+            setAge(event.target.value);
+           
+          };
   return (
     <div>
 <Box sx={{display:"flex",flexDirection:"column", width: '100%', maxWidth:{ lg:350,xs:300,sm:350},
@@ -61,9 +92,9 @@ number}) => {
            <Divider/>
             <Box sx={{ mt:2, minWidth: 120 }}>
       <FormControl   sx={{ pl: 3, pr: 5,width:{lg:"300px",sm:"300px",xs:"300px"} }}>
-        {/* <InputLabel
+        <InputLabel
         sx={{ pl: 3, pr: 5,width:{lg:"200px",sm:"200px",xs:"200px"} }}
-        id="demo-simple-select-label">Product Type</InputLabel> */}
+        id="demo-simple-select-label">{status}</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
@@ -71,13 +102,15 @@ number}) => {
          
           onChange={handleChange}
         >
-          <MenuItem value={10}>Pending</MenuItem>
-          <MenuItem value={20}>In-Progress</MenuItem>
-          <MenuItem value={30}>delivered</MenuItem>
-          <MenuItem value={40}>Canceled</MenuItem>
+          <MenuItem value={"Pending"}>Pending</MenuItem>
+          <MenuItem value={"In-Progress"}>In-Progress</MenuItem>
+          <MenuItem value={"delivered"}>delivered</MenuItem>
+          <MenuItem value={"Canceled"}>Canceled</MenuItem>
         </Select>
       </FormControl>
+      
     </Box>
+    <Button sx={{mt:2}} onClick={editProduct} variant='contained'>Update</Button>
       </Box>
      
 
