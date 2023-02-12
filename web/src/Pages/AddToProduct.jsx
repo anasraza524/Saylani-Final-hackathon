@@ -33,7 +33,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 const AddToProduct = ({}) => {
   let { state, dispatch } = useContext(GlobalContext);
-  const [addtoCartData, setaddtoCartData] = useState(null)
+  const [addtoCartData, setaddtoCartData] = useState([])
   const [loadProduct, setLoadProduct] = useState(false)
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
@@ -71,6 +71,7 @@ const AddToProduct = ({}) => {
   
   }
 // console.log(state.cartData,"state.cartData")
+let total = 0
 
  useEffect(() => {
 
@@ -79,8 +80,11 @@ const AddToProduct = ({}) => {
      getAllCart()
    
  }, []);
-
-
+ addtoCartData.forEach(element => {
+total += +element.price
+});
+console.log(total,"'df")
+// console.log(addtoCartData.length)
 const PlaceOrder = async (e) => {
   
   try {
@@ -93,14 +97,15 @@ const PlaceOrder = async (e) => {
     setSuccess('')
     setError('')
     const data = new FormData(e.currentTarget)
-    let response = await axios.post(`${state.baseUrl}/placeorder`, {
+    let response = await axios.post(`${state.baseUrl}/placeOrder`, {
       FullName:data.get('FullName'),
       email:data.get('email'),
-      price: data.get('email'),
-      status:data.get('email'),
-      TotalAmount:data.get('email'),
-      totalItems:data.get('email'),
-      number:data.get('email'),
+     
+      status:"Pending",
+      TotalAmount:total,
+      totalItems:addtoCartData.length,
+      number:data.get('number'),
+      shippingAddress:data.get('shippingAddress')
      
     }, {
         withCredentials: true
@@ -300,16 +305,16 @@ Total
 sx={{ pl: 3, pr: 5, width: { lg: "400px", sm: "400px", xs: "370px" } }}
 size="medium"
 type="text" placeholder="Enter your Item Email" required
-id='Email'
-        name='Email'
+id='email'
+        name='email'
 ></TextField><br /><br />
 <TextField
 
           sx={{ pl: 3, pr: 5, width: { lg: "400px", sm: "400px", xs: "370px" } }}
           size="medium"
           type="text" placeholder="Enter your Item Number" required
-          id='Number'
-          name='Number'
+          id='number'
+          name='number'
         >
           </TextField>
           
@@ -320,8 +325,8 @@ id='Email'
           placeholder="Enter your Shipping Address"
           multiline
           rows={4}
-          id='ShippingAddress'
-        name='ShippingAddress'
+          id='shippingAddress'
+        name='shippingAddress'
         />
 
         <Button style={{marginTop:"15px"}}  variant='contained' >Place Order</Button></form>

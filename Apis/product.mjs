@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import { productModel,Category,placeorder } from '../dbRepo/model.mjs'
+import { productModel,category,placeorder } from '../dbRepo/model.mjs'
 import multer from 'multer';
 import jwt from 'jsonwebtoken';
 import bucket from "../FirebaseAdmin/index.mjs";
@@ -433,7 +433,7 @@ fs.unlink(req.files[0].path, (err) => {
   }
 })
                   
-               Category.create({
+               category.create({
                         name: body.name,
                        
 
@@ -509,11 +509,11 @@ router.post("/placeOrder",async (req, res) => {
        const placeOrder= await placeorder.create({
         FullName: body.FullName,
         email: body.email,
-        price:  body.price,
         status: body.status,
         TotalAmount:body.TotalAmount,
         totalItems:body.totalItems,
         number:body.number,
+        shippingAddress:body.shippingAddress
              
         })
         if(!placeOrder) {
@@ -541,7 +541,7 @@ router.post("/placeOrder",async (req, res) => {
         
     
     });
-    router.get('/placeOrderFeed' , async(req,res)=>{
+router.get('/placeOrderFeed' , async(req,res)=>{
         const { page, limit = 8 } = req.query;
         try {
             const data = await placeorder.find()
