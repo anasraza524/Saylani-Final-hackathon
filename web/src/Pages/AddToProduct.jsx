@@ -329,7 +329,8 @@ id='email'
         name='shippingAddress'
         />
 
-        <Button style={{marginTop:"15px"}}  variant='contained' >Place Order</Button></form>
+        <Button style={{marginTop:"15px"}} type="submit"  variant='contained' >Place Order</Button>
+        </form>
      </div>
   )
 }

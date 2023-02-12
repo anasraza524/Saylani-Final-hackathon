@@ -143,8 +143,20 @@ const [loadProduct, setLoadProduct] = useState(false)
              <ListItemText primary="Cart" />
            </ListItemButton>
          </ListItem></LinkPage>
+         <LinkPage
+                  onClick={()=>{setIsOpen(false)}}
+                 to="/UserOrderDetail">
+         <ListItem sx={{ color:"white" }}
+         disablePadding>
+           <ListItemButton component="a" >
+             <ListItemIcon>
+             <Article /> 
+             </ListItemIcon>
+             <ListItemText primary="Order Detail" />
+           </ListItemButton>
+         </ListItem></LinkPage>
                  </div>:null}
-
+                
          {(state.user.isAdmin===true)?
          <div>
           <LinkPage
@@ -234,6 +246,10 @@ className="hover-underline-animation"
 className="hover-underline-animation"
  
    to="/AddToProduct" ><TabPage label="Cart" /></LinkPage>
+   <LinkPage
+className="hover-underline-animation"
+ 
+   to="/UserOrderDetail" ><TabPage label="Order Detail" /></LinkPage>
 </div>
 
 :null}

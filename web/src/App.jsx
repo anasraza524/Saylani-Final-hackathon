@@ -20,7 +20,7 @@ import Setting from "./Pages/Setting";
 import OrderPage from "./Pages/OrderPage";
 import { style } from "@mui/system";
 import AddToProduct from "./Pages/AddToProduct";
-
+import UserOrderDetail from "./Pages/UserOrderDetail";
 function App() {
   let { state, dispatch } = useContext(GlobalContext);
 
@@ -156,6 +156,7 @@ console.log(state.isLogin)
 
      <Route path="/" element={<HomeUser />}/>
      <Route path="AddToProduct" element={<AddToProduct/>} />
+     <Route path="UserOrderDetail" element={<UserOrderDetail/>} />
      <Route path="*" element={<Navigate to="/" replace={true} />} />
      </Routes> 
      {/* <StickyFooter/> */}
