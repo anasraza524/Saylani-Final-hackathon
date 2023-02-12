@@ -181,7 +181,7 @@ theme="light"
         >
            <span style={{display:"flex",alignItems:"center"}}>
             <Avatar sx={{ m: 1,p:4, bgcolor: 'skyblue' }}>
-          <LocalMallIcon style={{fontSize:"40px"}} />
+         SMIT
         </Avatar>
         <Typography  variant="h6"
           sx={{ 
