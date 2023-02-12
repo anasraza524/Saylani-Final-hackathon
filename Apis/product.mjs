@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import { productModel,category,placeorder } from '../dbRepo/model.mjs'
+import { productModel,category,placeorder} from '../dbRepo/model.mjs'
 import multer from 'multer';
 import jwt from 'jsonwebtoken';
 import bucket from "../FirebaseAdmin/index.mjs";
@@ -478,13 +478,13 @@ fs.unlink(req.files[0].path, (err) => {
 router.get('/categoryFeed' , async(req,res)=>{
     const { page, limit = 8 } = req.query;
     try {
-        const data = await Category.find()
+        const data = await category.find()
         .sort({"_id":-1})
         .limit(limit * 1)
       .skip((page - 1) * limit)
       .exec();
    if(!data) throw new Error("Category Not Found")
-      const count = await  Category.countDocuments();
+      const count = await  category.countDocuments();
       console.log(count)
       
       res.json({
@@ -541,7 +541,9 @@ router.post("/placeOrder",async (req, res) => {
         
     
     });
-router.get('/placeOrderFeed' , async(req,res)=>{
+
+
+    router.get('/placeOrderFeed' , async(req,res)=>{
         const { page, limit = 8 } = req.query;
         try {
             const data = await placeorder.find()
@@ -549,7 +551,7 @@ router.get('/placeOrderFeed' , async(req,res)=>{
             .limit(limit * 1)
           .skip((page - 1) * limit)
           .exec();
-       if(!data) throw new Error("placeorder Not Found")
+       if(!data) throw new Error("Category Not Found")
           const count = await  placeorder.countDocuments();
           console.log(count)
           
@@ -564,6 +566,6 @@ router.get('/placeOrderFeed' , async(req,res)=>{
             })
             console.error(error.message);
         }
-    })   
+    })
 
 export default router

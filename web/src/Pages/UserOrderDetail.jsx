@@ -26,7 +26,7 @@ const [CurrentPage, setCurrentPage] = useState(1)
     })
     try {
     
-      const response = await axios.get(`${state.baseUrl}placeOrderFeed?page=${CurrentPage}`,{
+      const response = await axios.get(`${state.baseUrl}/placeOrderFeed?page=${CurrentPage}`,{
            
         withCredentials: true,
         
@@ -34,7 +34,7 @@ const [CurrentPage, setCurrentPage] = useState(1)
     });
   
    
-    console.log("hjhjfffffff",response)
+    console.log("hjanas",response)
     setPage(response.data)
     setHomeProductData(response.data.data)
    
@@ -65,25 +65,33 @@ const [CurrentPage, setCurrentPage] = useState(1)
   return (
     <div>
         
-        <Box sx={{display:"flex",flexDirection:"column", width: '100%', maxWidth:{ lg:350,xs:300,sm:350},
+        {(!homeProductData) ? null :
+
+
+homeProductData?.map((eachProduct, index) => ( 
+
+
+
+        <Box key={index}
+         sx={{display:"flex",flexDirection:"column", width: '100%', maxWidth:{ lg:350,xs:300,sm:350},
     bgcolor: 'white',p:1,borderRadius:"10px",color:"black",m:"1em"}}>
 
-    
-      <Typography  gutterBottom variant="h3" component="div">
+
+      <Typography  gutterBottom variant="h5" component="div">
           
-              
+      {eachProduct.FullName}
             </Typography>
             <Typography style={{fontSize:"15px"}} gutterBottom variant="p" component="div">
           
-              
+            {eachProduct.status}
             </Typography>
             <Box sx={{display:'flex',justifyContent:"space-between"}}>
             <Typography sx={{ opacity: 0.5}} color="gray" variant="body2" gutterBottom  component="div">
          
-              
+            {eachProduct.totalItems}
             </Typography>
             <Typography sx={{ opacity: 0.5}} color="gray" variant="body2" gutterBottom  component="div">
-           
+           { eachProduct.number}
               
             </Typography>
             </Box>
@@ -98,7 +106,7 @@ const [CurrentPage, setCurrentPage] = useState(1)
             </Typography>
             <Typography  gutterBottom variant="h6" component="div">
          
-              
+              pkr:{eachProduct.TotalAmount}
             </Typography>
 
            
@@ -107,6 +115,10 @@ const [CurrentPage, setCurrentPage] = useState(1)
 
    
       </Box>
+     
+      
+      
+      ))}
     </div>
   )
 }
