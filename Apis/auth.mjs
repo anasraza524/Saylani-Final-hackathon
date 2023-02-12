@@ -1,6 +1,7 @@
 import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 dotenv.config()
 import moment from 'moment'
+import multer from 'multer'
 import express from 'express';
 import {signupSchema,loginSchema,resetPasswordSchema,forgetPasswordSchema}from '../helper/validation_schema.mjs'
 import { nanoid, customAlphabet } from 'nanoid'
@@ -425,4 +426,146 @@ if(!body.password) throw new Error("New Password Not Found")
     }
 
 })
+const storageConfig = multer.diskStorage({
+    destination: '/tmp/uploads/',
+ // destination: './uploads/',
+     filename: function (req, file, cb) {
+ 
+  console.log("mul-file: ", file);
+         cb(null, `${new Date().getTime()}-${file.originalname}`)
+     }
+ })
+ 
+ let uploadMiddleware = multer({
+      storage: storageConfig ,
+     
+      fileFilter: (req, file, cb) => {
+       
+         if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
+           cb(null, true);
+         } else {
+             // this is requesting in uploadMiddleware body and you can send error
+             req.fileValidationError = "Forbidden extension";
+                return cb(null, false, req.fileValidationError);
+         //   return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
+         }
+       }
+ 
+      })
+router.put('/updateProfile/:id', uploadMiddleware.any()
+,  async (req, res) => {
+   
+   try {
+    // this is The we are sending
+if(req.fileValidationError){
+    res.status(400).send({message:"Only .png, .jpg and .jpeg format allowed!"})
+    return
+}
+const body = req.body;
+const id = req.params.id;
+
+
+   
+
+    
+console.log("userId",userId)
+
+
+
+if(!req.files[0]) throw new Error("please upload product Image")
+// console.log(req.files[0].mimetype)
+
+if(req.files[0].mimetype === "image/png"||
+req.files[0].mimetype === "image/jpeg"||
+req.files[0].mimetype === "image/jpg" ) console.log(" accept png, jpg, jpeg")
+else{
+    fs.unlink(req.files[0].path, (err) => {
+        if (err) {
+          console.error(err)
+          return
+        }
+        else{
+          console.log("Delete sus")
+        }
+      })
+    throw new Error("only accept png, jpg, jpeg")
+}
+
+if(req.files[0].size >= 1000000)throw new Error("only accept 1 Mb Image")
+// const UploadInStorageBucket = await bucket.upload(    req.files[0].path,
+//     {
+//         destination: `tweetPictures/${req.files[0].filename}`, // give destination name if you want to give a certain name to file in bucket, include date to make name unique otherwise it will replace previous file with the same name
+//     })
+//     if(!UploadInStorageBucket) throw new Error("Server Error")
+    
+// console.log('UploadInStorageBucket',UploadInStorageBucket)
+bucket.upload(
+    req.files[0].path,
+    {
+        destination: `SaylaniHacthon/${req.files[0].filename}`, // give destination name if you want to give a certain name to file in bucket, include date to make name unique otherwise it will replace previous file with the same name
+    },
+    function (err, file, apiResponse) {
+        if (!err) {
+
+            file.getSignedUrl({
+                action: 'read',
+                expires: '03-09-2999'
+            }).then((urlData, err) => {
+                if (!err) {
+
+
+fs.unlink(req.files[0].path, (err) => {
+  if (err) {
+    console.error(err,"dd")
+    return
+  }
+  else{
+    console.log("Delete sus")
+  }
+})
+productModel.findByIdAndUpdate(id,
+    {
+        firstName: body.firstName,
+        
+        profileImage:urlData[0],
+    },
+    { new: true }
+      
+                    ,
+                        (err, saved) => {
+                            if (!err) {
+                                console.log("saved: ", saved);
+
+                                res.send({
+                                    message: "Product added successfully"
+                                });
+                            } else {
+                                console.log("err: ", err);
+                                res.status(500).send({
+                                    message: "server error"
+                                })
+                            }
+                        })
+                }
+            })
+        } else {
+            console.log("err: ", err)
+            res.status(500).send({message:err});
+        }
+    });
+
+
+
+} catch (error) {
+
+    res.status(500).send({
+        message: error.message
+    })
+    console.error(error.message);
+
+   }
+})
+    
+       
+    
 export default router

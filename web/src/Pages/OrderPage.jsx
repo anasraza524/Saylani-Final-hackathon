@@ -35,7 +35,7 @@ const OrderPage = () => {
         setError('')
         axios({
           method: 'put',
-          url: `${state.baseUrl}/product/${state.user.data._id}`,
+          url: `${state.baseUrl}/updateProfile/${state.user.data._id}`,
           data: formData,
           headers: { 'Content-Type': 'multipart/form-data' },
           withCredentials:true
@@ -73,7 +73,9 @@ const OrderPage = () => {
       
       <Box sx={{display:'flex',flexDirection:"column",p:5,
       alignItems:{lg:"normal",sm:"normal",xs:"center"}}}>
-        <form onSubmit={()=>{editProduct()}}>
+        <form onSubmit={()=>{
+          editProduct()
+        }}>
 <Box sx={{display:'flex',flexDirection:"column",maxWidth:"40em",
 
 }}>
@@ -148,6 +150,10 @@ const OrderPage = () => {
               }
 
 <TextField id="filled-basic" label="new Category Name" variant="filled" />
+<Button type='submit'>
+Done
+
+</Button>
 
 </Box></form>
 <Typography sx={{m:2,fontSize:{xs:30,sm:50,lg:50}}} >

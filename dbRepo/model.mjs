@@ -46,7 +46,7 @@ const userSchema = new mongoose.Schema({
     lastName: { type: String },
     // number:{type:Number,required: true},
     email: { type: String, required: true },
-    profileImage: String,
+    profileImage: {type:String},
     password: { type: String, required: true },
     isAdmin:{ type: Boolean, default: false },
     createdOn: { type: Date, default: Date.now },
