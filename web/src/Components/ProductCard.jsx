@@ -4,7 +4,7 @@ import {
   CardActions, CardActionArea, Divider, CardMedia,Stack
 } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete';
-const ProductCard = ({image,price,name,des}) => {
+const ProductCard = ({image,price,name,des,productType,priceUnit}) => {
   return (
  
     <Box sx={{ width: '100%', maxWidth:{ lg:300,xs:300,sm:300},
@@ -16,12 +16,12 @@ const ProductCard = ({image,price,name,des}) => {
         component="img"
         width="150"
         loading="lazy "
-        height="200"
+        height="180"
       image={image}
      
         alt="green iguana"
       />
-      <Box sx={{ my: 3, mx: 2 }}>
+      <Box sx={{ my: 1, mx: 2 }}>
         <Grid container alignItems="center">
           <Grid item xs>
             <Typography gutterBottom variant="h5" component="div">
@@ -31,13 +31,19 @@ const ProductCard = ({image,price,name,des}) => {
           </Grid>
           <Grid item>
             <Typography gutterBottom variant="h5" component="div">
+              {priceUnit } : 
               {price}
             </Typography>
+            
           </Grid>
         </Grid>
         <Typography sx={{ opacity: 0.5}} color="gray" variant="body2">
+         {productType}
+        </Typography>
+        <Typography sx={{ opacity: 0.5}} color="gray" variant="body2">
          {des}
         </Typography>
+        
       </Box>
       <Divider variant="middle" />
 

@@ -2,11 +2,11 @@ import { Routes, Route ,Navigate,  useHistory,
   useParams} from "react-router-dom";
 import './App.css';
 import { useState, useEffect,useContext } from "react"
-
+import HomeUser from "./Pages/HomeUser";
 import Loading from './assets/Loading.gif'
 import Nav from './Components/Nav';
 import OtpRecord from "./Pages/Auth/OtpRecord";
-import Home from './Pages/Home';
+import HomeAdmin from './Pages/HomeAdmin';
 import axios from 'axios';
 import Login from "./Pages/Auth/Login";
 import SignUp from "./Pages/Auth/SignUp";
@@ -154,7 +154,8 @@ console.log(state.isLogin)
 
  <Routes>
 
-     <Route path="/" element={<Home />}/>
+     <Route path="/" element={<HomeUser />}/>
+     
      <Route path="*" element={<Navigate to="/" replace={true} />} />
      </Routes> 
      <StickyFooter/>
@@ -168,7 +169,7 @@ console.log(state.isLogin)
 
  <Routes>
 
-     <Route path="/" element={<Home />}/>
+     <Route path="/" element={<HomeAdmin />}/>
      <Route path="AddNewItem" element={<AddNewItem />}/>
      <Route path="OrderPage" element={<OrderPage />}/>
      <Route path="Setting" element={<Setting />}/>

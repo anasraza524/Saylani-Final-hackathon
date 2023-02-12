@@ -16,6 +16,7 @@ export const OtpRecordModel = mongoose.model('OtpRecords', otpSchema);
 
 let productSchema = new mongoose.Schema({
     name: { type: String, required: true },
+    priceUnit:String,
     price: Number,
     description: String,
      productImage: String,
@@ -45,6 +46,7 @@ const userSchema = new mongoose.Schema({
     lastName: { type: String },
     // number:{type:Number,required: true},
     email: { type: String, required: true },
+    profileImage: String,
     password: { type: String, required: true },
     isAdmin:{ type: Boolean, default: false },
     createdOn: { type: Date, default: Date.now },

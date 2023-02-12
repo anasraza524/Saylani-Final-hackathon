@@ -131,7 +131,7 @@ const [file, setFile] = useState(null)
                 onChange={(e) => {
                   setFile(e.currentTarget.files[0])
                  
-                  var url = URL.createObjectURL(e.currentTarget.files[0])
+                  let url = URL.createObjectURL(e.currentTarget.files[0])
 
                   console.log("url: ", url);
 
@@ -188,7 +188,7 @@ const [file, setFile] = useState(null)
       <TextField
          
           id="filled-size-small"
-          defaultValue="Small"
+          defaultValue="pkr"
           variant="filled"
           size="small"
           type="text"

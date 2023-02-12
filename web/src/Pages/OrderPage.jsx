@@ -1,4 +1,5 @@
-import React,{useState} from 'react'
+import React,{useState,useContext} from 'react'
+
 import {
   Typography, Card, CardContent,CircularProgress,
   TextField, Button, Paper, Chip, Box, Grid,
@@ -8,25 +9,75 @@ import CategoriesCard from '../Components/CategoriesCard';
 import FolderIcon from '@mui/icons-material/Folder';
 import InputLabel from '@mui/material/InputLabel';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
-
+import { GlobalContext } from '../Context/Context';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import axios from 'axios';
 const OrderPage = () => {
+  let { state, dispatch } = useContext(GlobalContext);
+  let formData = new FormData();
+  const [firstName, setFirstName] = useState('');
+
+
   const [preview, setPreview] = useState(null)
   const [preview2, setPreview2] = useState(null)
   const [file, setFile] = useState(null)
   const [file2, setFile2] = useState(null)
       const [error, setError] = useState('');
       const [success, setSuccess] = useState('');
+      formData.append("profileImage", file);
+      formData.append("firstName", firstName);
+      const  editProduct = async(e)=> { 
+
+        
+        e.preventDefault();
+        setSuccess('')
+        setError('')
+        axios({
+          method: 'put',
+          url: `${state.baseUrl}/product/${state.user.data._id}`,
+          data: formData,
+          headers: { 'Content-Type': 'multipart/form-data' },
+          withCredentials:true
+        })
+          .then(res => {
+              // setLoadProduct(!loadProduct)
+              console.log(`upload Success` + res.data);
+              setSuccess(res.message
+                )
+              dispatch({
+                type:"LOAD_SKELETON",
+                payload:false
+              })
+              e.target.reset()
+              setFile(null)
+             
+              setPreview(null)
+          })
+          .catch(err => {
+            dispatch({
+              type:"LOAD_SKELETON",
+              payload:false
+            })
+            
+              console.log("error: ", err);
+              setError(err.response.data.message)
+        
+          })
+          };
+ 
+        
   return (
     <div
     >
       
       <Box sx={{display:'flex',flexDirection:"column",p:5,
       alignItems:{lg:"normal",sm:"normal",xs:"center"}}}>
+        <form onSubmit={()=>{editProduct()}}>
 <Box sx={{display:'flex',flexDirection:"column",maxWidth:"40em",
 
 }}>
+  
  {  (preview2)?
 <Avatar  sx={{ width:{lg:200,sm:200,xs:150},ml:{lg:0,sm:0,xs:"5em"}, height:{lg:200,sm:200,xs:150}}}>
         <img src={preview2} height="200px" width="200" alt="" srcset="" />
@@ -70,7 +121,7 @@ const OrderPage = () => {
                 }}
                  style={{ display: 'none' }}
                 />
-      <TextField id="standard-basic" label="Standard" variant="standard" />
+      <TextField id="standard-basic" label="Updated Full Name" variant="standard" />
 
       {  (preview)?
            <Box
@@ -96,9 +147,9 @@ const OrderPage = () => {
   </Box></label>
               }
 
-<TextField id="filled-basic" label="Filled" variant="filled" />
+<TextField id="filled-basic" label="new Category Name" variant="filled" />
 
-</Box>
+</Box></form>
 <Typography sx={{m:2,fontSize:{xs:30,sm:50,lg:50}}} >
 
  All Catagries
