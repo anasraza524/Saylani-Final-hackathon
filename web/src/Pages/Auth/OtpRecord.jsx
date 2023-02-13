@@ -152,6 +152,9 @@ onClose={DialogClose}
 aria-labelledby="responsive-dialog-title"
 >
  <DialogTitle dividers="true" >
+ <Avatar sx={{ m: 1,p:4, bgcolor: 'skyblue' }}>
+         SMIT
+        </Avatar>
 <Typography sx={{fontSize:{xs:"26px"},display:'flex',flexDirection:"column",alignItems:"center"}} variant='h4'>
   Online Discount Store
   {/* <CloseIcon onClick={DialogClose} sx={{m:1,float:"right"}} /> */}

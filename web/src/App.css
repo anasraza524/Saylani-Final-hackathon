@@ -10,7 +10,7 @@ body {
   background-size: auto;
   font-size: 14px;
   background-size: cover;
-  background-color: gray;
+  background-color:#60e0d9
 /* background-image: url("https://firebasestorage.googleapis.com/v0/b/e-mars-store.appspot.com/o/Online Discount StorePictures%2Fpair-shopping-cart-miniatures_23-2148081027.webp?alt=media&token=8bf47458-b559-40db-8f24-cbf3824ceb9c"); */
 }
 @media only screen and (max-width: 600px) {

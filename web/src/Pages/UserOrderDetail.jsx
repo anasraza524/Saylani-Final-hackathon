@@ -26,7 +26,7 @@ const [CurrentPage, setCurrentPage] = useState(1)
     })
     try {
     
-      const response = await axios.get(`${state.baseUrl}/placeOrderFeed?page=${CurrentPage}`,{
+      const response = await axios.get(`${state.baseUrl}/placeOrders`,{
            
         withCredentials: true,
         

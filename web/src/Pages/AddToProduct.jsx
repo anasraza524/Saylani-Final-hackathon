@@ -86,9 +86,9 @@ total += +element.price
 console.log(total,"'df")
 // console.log(addtoCartData.length)
 const PlaceOrder = async (e) => {
-  
+  e.preventDefault();
   try {
-    e.preventDefault();
+    
     dispatch({
       type: "LOAD_SKELETON",
       payload: true
@@ -110,17 +110,17 @@ const PlaceOrder = async (e) => {
     }, {
         withCredentials: true
     })
-    dispatch({
-      type:"USER_LOGIN",
-      payload: response.data.loginData
+    // dispatch({
+    //   type:"USER_LOGIN",
+    //   payload: response.data.loginData
 
 
-    })
+    // })
 
-    setSuccess(response.data.message)
+    // setSuccess(response.data.message)
     console.log("login successful",response);
    
- 
+    e.target.reset()
 
 } catch (error) {
   console.log("LoginError: ",error);
@@ -287,9 +287,9 @@ onClick={() => {
      <Divider variant="middle" />
      <Typography sx={{m:2,fontSize:{xs:30,sm:50,lg:50}}} >
 
-Total
+Total Amount:{total}
 </Typography>
-     
+
      <Divider/><br />
      <form onSubmit={PlaceOrder} style={{textAlign:"center",padding:"1em"}}>
      <TextField

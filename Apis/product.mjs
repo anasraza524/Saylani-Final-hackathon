@@ -542,6 +542,35 @@ router.post("/placeOrder",async (req, res) => {
     
     });
 
+    router.get('/placeOrders',async (req, res) => {
+        try {
+            const userId = new mongoose.Types.ObjectId(req.body.token._id);
+            console.log(userId)
+            
+            const verifyUser=  await placeorder.find(
+                    { owner: userId
+                        // , isDeleted: false 
+                        }, {},{
+                        sort: { "_id": -1 },
+                        limit: 10,
+                        skip: 0
+                    })
+        
+        if(!verifyUser) throw new Error("server error")
+                    res.send({
+                        message: "got all products successfully",
+                        data: verifyUser
+                    })
+        } catch (error) {
+            res.status(500).send({
+                message: error.message
+            })
+            console.error(error.message);
+        
+        }
+           
+        })
+
 
     router.get('/placeOrderFeed' , async(req,res)=>{
         const { page, limit = 8 } = req.query;
